@@ -1,6 +1,11 @@
 package br.com.lapdev.minhascontas.entity;
 
+import br.com.lapdev.minhascontas.dto.UserDTO;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import jakarta.persistence.*;
+import org.springframework.beans.BeanUtils;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "MC_USER")
@@ -20,6 +25,12 @@ public class UserEntity {
 
     @Column(nullable = false,unique = true )
     private String email;
+
+    public UserEntity(UserDTO user){
+        BeanUtils.copyProperties(user,this);
+    }
+
+    public UserEntity(){}
 
     public Long getId() {
         return id;
@@ -59,5 +70,18 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        UserEntity that = (UserEntity) object;
+        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(login, that.login) && Objects.equals(password, that.password) && Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, login, password, email);
     }
 }
