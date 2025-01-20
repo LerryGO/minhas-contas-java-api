@@ -1,7 +1,6 @@
 package br.com.lapdev.minhascontas.entity;
 
 import br.com.lapdev.minhascontas.dto.UserDTO;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 
@@ -15,7 +14,7 @@ public class UserEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String login;
@@ -40,12 +39,12 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogin() {
@@ -77,11 +76,11 @@ public class UserEntity {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         UserEntity that = (UserEntity) object;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(login, that.login) && Objects.equals(password, that.password) && Objects.equals(email, that.email);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(login, that.login) && Objects.equals(password, that.password) && Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, login, password, email);
+        return Objects.hash(id, name, login, password, email);
     }
 }

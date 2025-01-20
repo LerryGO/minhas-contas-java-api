@@ -1,13 +1,11 @@
 package br.com.lapdev.minhascontas.dto;
 
 import br.com.lapdev.minhascontas.entity.UserEntity;
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import jakarta.persistence.Column;
 import org.springframework.beans.BeanUtils;
 
 public class UserDTO {
     private Long id;
-    private String nome;
+    private String name;
     private String login;
     private String password;
     private String email;
@@ -26,12 +24,12 @@ public class UserDTO {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogin() {
