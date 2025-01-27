@@ -1,9 +1,7 @@
 package br.com.lapdev.minhascontas.service;
 
 import br.com.lapdev.minhascontas.dto.ProfileDTO;
-import br.com.lapdev.minhascontas.dto.ResourceDTO;
 import br.com.lapdev.minhascontas.entity.ProfileEntity;
-import br.com.lapdev.minhascontas.entity.ResourceEntity;
 import br.com.lapdev.minhascontas.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,7 @@ public class ProfileService {
 
     public List<ProfileDTO> getAll(){
         List<ProfileEntity> profiles = profileRepository.findAll();
-        return profiles.stream().map((ProfileEntity::new)).toList();
+        return profiles.stream().map(ProfileDTO::new).toList();
     }
 
     public void insert(ProfileDTO profile){
