@@ -18,16 +18,17 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String name, String userName, String email, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String name, String userName,String password, String email, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.userName = userName;
+        this.password = password;
         this.email = email;
         this.authorities = authorities;
     }
 
     public static UserDetailsImpl build(UserEntity user){
-        return new UserDetailsImpl(user.getId(), user.getName(), user.getLogin(),user.getEmail(),new ArrayList<>());
+        return new UserDetailsImpl(user.getId(), user.getName(), user.getLogin(),user.getPassword(), user.getEmail(),new ArrayList<>());
     }
 
     @Override

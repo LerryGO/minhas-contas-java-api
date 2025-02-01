@@ -4,6 +4,7 @@ import br.com.lapdev.minhascontas.dto.UserDTO;
 import br.com.lapdev.minhascontas.entity.UserEntity;
 import br.com.lapdev.minhascontas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<UserDTO> getAll(){
         List<UserEntity> users = userRepository.findAll();
         return  users.stream().map(UserDTO::new).toList();
@@ -21,6 +25,7 @@ public class UserService {
 
     public void insert(UserDTO user){
         UserEntity userEntity = new UserEntity(user);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(userEntity);
     }
 
