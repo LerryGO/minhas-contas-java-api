@@ -2,6 +2,7 @@ package br.com.lapdev.minhascontas.service;
 
 import br.com.lapdev.minhascontas.dto.UserDTO;
 import br.com.lapdev.minhascontas.entity.UserEntity;
+import br.com.lapdev.minhascontas.entity.enums.UserSituationType;
 import br.com.lapdev.minhascontas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,16 @@ public class UserService {
     public void insert(UserDTO user){
         UserEntity userEntity = new UserEntity(user);
         userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(userEntity);
+    }
+
+    public void registerUser(UserDTO user){
+        UserEntity userEntity = new UserEntity(user);
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        userEntity.setSituation(UserSituationType.PENDING);
+        userEntity.setId(null);
+
+        // TODO : Enviar email para veriicar a conta
         userRepository.save(userEntity);
     }
 
