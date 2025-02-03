@@ -1,6 +1,7 @@
 package br.com.lapdev.minhascontas.entity;
 
 import br.com.lapdev.minhascontas.dto.UserDTO;
+import br.com.lapdev.minhascontas.entity.enums.UserSituationType;
 import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 
@@ -24,6 +25,10 @@ public class UserEntity {
 
     @Column(nullable = false,unique = true )
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserSituationType situation;
 
     public UserEntity(UserDTO user){
         BeanUtils.copyProperties(user,this);
@@ -69,6 +74,14 @@ public class UserEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserSituationType getSituation() {
+        return situation;
+    }
+
+    public void setSituation(UserSituationType situation) {
+        this.situation = situation;
     }
 
     @Override

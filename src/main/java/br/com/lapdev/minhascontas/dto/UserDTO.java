@@ -1,6 +1,7 @@
 package br.com.lapdev.minhascontas.dto;
 
 import br.com.lapdev.minhascontas.entity.UserEntity;
+import br.com.lapdev.minhascontas.entity.enums.UserSituationType;
 import org.springframework.beans.BeanUtils;
 
 public class UserDTO {
@@ -9,6 +10,7 @@ public class UserDTO {
     private String login;
     private String password;
     private String email;
+    private UserSituationType situation;
 
     public UserDTO(UserEntity user){
         BeanUtils.copyProperties(user,this);
@@ -54,5 +56,13 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserSituationType getSituation() {
+        return situation;
+    }
+
+    public void setSituation(UserSituationType situation) {
+        this.situation = situation;
     }
 }
