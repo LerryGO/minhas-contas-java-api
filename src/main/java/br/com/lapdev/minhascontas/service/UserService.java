@@ -19,6 +19,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
     public List<UserDTO> getAll(){
         List<UserEntity> users = userRepository.findAll();
         return  users.stream().map(UserDTO::new).toList();
@@ -36,7 +39,7 @@ public class UserService {
         userEntity.setSituation(UserSituationType.PENDING);
         userEntity.setId(null);
 
-        // TODO : Enviar email para veriicar a conta
+        emailService.sendTextEmail(user.getEmail(), "Novo usuário cadastrado", "Você está recebendo um email de cadastro");
         userRepository.save(userEntity);
     }
 
