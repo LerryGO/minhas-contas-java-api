@@ -1,15 +1,19 @@
 package br.com.lapdev.minhascontas.service;
 
 import br.com.lapdev.minhascontas.dto.UserDTO;
+import br.com.lapdev.minhascontas.entity.UserEmailVerificationEntity;
 import br.com.lapdev.minhascontas.entity.UserEntity;
 import br.com.lapdev.minhascontas.entity.enums.UserSituationType;
+import br.com.lapdev.minhascontas.repository.UserEmailVerificationRepository;
 import br.com.lapdev.minhascontas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -21,6 +25,9 @@ public class UserService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    UserEmailVerificationRepository userEmailVerificationRepository;
 
     public List<UserDTO> getAll(){
         List<UserEntity> users = userRepository.findAll();
@@ -39,7 +46,14 @@ public class UserService {
         userEntity.setSituation(UserSituationType.PENDING);
         userEntity.setId(null);
 
-        emailService.sendTextEmail(user.getEmail(), "Novo usuário cadastrado", "Você está recebendo um email de cadastro");
+        UserEmailVerificationEntity verificationEntity = new UserEmailVerificationEntity();
+        verificationEntity.setUser(userEntity);
+        verificationEntity.setUuid(UUID.randomUUID());
+        verificationEntity.setExpirationDate(Instant.now().plusMillis(900000));
+        userEmailVerificationRepository.save(verificationEntity);
+
+
+        emailService.sendTextEmail(user.getEmail(), "Novo usuário cadastrado", "Você está recebendo um email de cadastro, o número para validação é "+ verificationEntity.getUuid());
         userRepository.save(userEntity);
     }
 
