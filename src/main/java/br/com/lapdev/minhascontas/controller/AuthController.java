@@ -29,4 +29,10 @@ public class AuthController {
         userService.registerUser(newUser);
     }
 
+    @GetMapping(value = "/checkRegistration/{uuid}")
+    public String checkRegistration(@PathVariable("uuid") String uuid){
+
+        return  userService.checkRegistration(uuid);
+    }
+
 }

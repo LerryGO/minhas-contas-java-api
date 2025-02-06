@@ -76,4 +76,25 @@ public class UserService {
 
     }
 
+    public String checkRegistration(String uuid){
+
+       Optional<UserEmailVerificationEntity> userEmailVerificationEntity = userEmailVerificationRepository.findByUuid(UUID.fromString(uuid));
+       if(userEmailVerificationEntity.isPresent()){
+           UserEmailVerificationEntity user = userEmailVerificationEntity.get();
+           if((user.getExpirationDate().compareTo(Instant.now()) >= 0)){
+                UserEntity userEntity = user.getUser();
+                userEntity.setSituation(UserSituationType.ACTIVE);
+
+                userRepository.save(userEntity);
+
+                return "Usuário verificado";
+           }
+       }else{
+           userEmailVerificationEntity.ifPresent(userEmailVerificationRepository::delete);
+           return  "Usuário não verificado";
+       }
+        return null;
+    }
+
+
 }
